@@ -3,6 +3,7 @@
 target/
 .idea/
 pom.xml
+.DS_Store
 
 # Build Output
 **/build_result/
