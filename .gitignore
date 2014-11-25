@@ -1,5 +1,8 @@
 # Temp Files
 *~
+target/
+.idea/
+pom.xml
 
 # Build Output
 **/build_result/
