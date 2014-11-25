@@ -17,6 +17,7 @@ package com.google.devtools.j2objc.util;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.j2objc.annotations.Weak;
+import com.google.j2objc.annotations.WeakObject;
 import com.google.j2objc.annotations.WeakOuter;
 
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
@@ -293,8 +294,10 @@ public final class BindingUtil {
 
   public static boolean isWeakReference(IVariableBinding var) {
     return hasAnnotation(var, Weak.class)
+        || hasAnnotation(var.getType(), WeakObject.class)
         || var.getName().startsWith("this$")
-        && hasAnnotation(var.getDeclaringClass(), WeakOuter.class);
+        && (hasAnnotation(var.getDeclaringClass(), WeakOuter.class)
+            || var.getDeclaringClass().isAnonymous());
   }
 
   /**

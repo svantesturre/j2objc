@@ -17,4 +17,5 @@ ANNOTATION_SOURCE_JAVA = \
     com/google/j2objc/annotations/ReflectionSupport.java \
     com/google/j2objc/annotations/RetainedLocalRef.java \
     com/google/j2objc/annotations/Weak.java \
-    com/google/j2objc/annotations/WeakOuter.java
+    com/google/j2objc/annotations/WeakOuter.java \
+    com/google/j2objc/annotations/WeakObject.java
