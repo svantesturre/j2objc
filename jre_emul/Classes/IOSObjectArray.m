@@ -58,7 +58,7 @@ static IOSObjectArray *IOSObjectArray_NewArrayWithObjects(
 }
 
 + (instancetype)arrayWithLength:(NSUInteger)length type:(IOSClass *)type {
-  return [IOSObjectArray_NewArray((jint)length, type, YES) autorelease];
+  return [IOSObjectArray_NewArray((jint)length, type, NO) autorelease];
 }
 
 + (instancetype)newArrayWithObjects:(const id *)objects
@@ -70,7 +70,7 @@ static IOSObjectArray *IOSObjectArray_NewArrayWithObjects(
 + (instancetype)arrayWithObjects:(const id *)objects
                            count:(NSUInteger)count
                             type:(IOSClass *)type {
-  return [IOSObjectArray_NewArrayWithObjects((jint)count, type, YES, objects) autorelease];
+  return [IOSObjectArray_NewArrayWithObjects((jint)count, type, NO, objects) autorelease];
 }
 
 + (instancetype)arrayWithArray:(IOSObjectArray *)array {
@@ -81,7 +81,7 @@ static IOSObjectArray *IOSObjectArray_NewArrayWithObjects(
 
 + (instancetype)arrayWithNSArray:(NSArray *)array type:(IOSClass *)type {
   NSUInteger count = [array count];
-  IOSObjectArray *result = IOSObjectArray_NewArray((jint)count, type, YES);
+  IOSObjectArray *result = IOSObjectArray_NewArray((jint)count, type, NO);
   [array getObjects:result->buffer_ range:NSMakeRange(0, count)];
   return [result autorelease];
 }

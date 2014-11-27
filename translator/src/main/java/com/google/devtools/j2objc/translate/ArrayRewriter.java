@@ -15,6 +15,7 @@
 package com.google.devtools.j2objc.translate;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.devtools.j2objc.Options;
 import com.google.devtools.j2objc.ast.ArrayAccess;
 import com.google.devtools.j2objc.ast.ArrayCreation;
 import com.google.devtools.j2objc.ast.ArrayInitializer;
@@ -145,7 +146,7 @@ public class ArrayRewriter extends TreeVisitor {
   private IOSMethodBinding getInitializeMethod(IOSTypeBinding arrayType, boolean retainedResult) {
     String typeName = arrayType.getName();
     String methodName =
-        retainedResult ? RETAINED_INIT_METHODS.get(typeName) : INIT_METHODS.get(typeName);
+            (retainedResult || Options.useARC()) ? RETAINED_INIT_METHODS.get(typeName) : INIT_METHODS.get(typeName);
     assert methodName != null;
     IOSMethod iosMethod = IOSMethod.create(typeName + methodName);
     IOSMethodBinding binding = IOSMethodBinding.newMethod(
@@ -182,7 +183,7 @@ public class ArrayRewriter extends TreeVisitor {
       IOSTypeBinding arrayType, boolean retainedResult) {
     boolean needsTypeParam = arrayType.getName().equals("IOSObjectArray");
     IOSMethod iosMethod = IOSMethod.create(
-        arrayType.getName() + (retainedResult ? " newArray" : " array") + "WithLength:(int)length"
+        arrayType.getName() + ((retainedResult || Options.useARC()) ? " newArray" : " array") + "WithLength:(int)length"
         + (needsTypeParam ? " type:(IOSClass *)type" : ""));
     IOSMethodBinding binding = IOSMethodBinding.newMethod(
         iosMethod, Modifier.PUBLIC | Modifier.STATIC, arrayType, arrayType);
@@ -228,7 +229,7 @@ public class ArrayRewriter extends TreeVisitor {
       IOSTypeBinding arrayType, boolean retainedResult) {
     boolean needsTypeParam = arrayType.getName().equals("IOSObjectArray");
     IOSMethod iosMethod = IOSMethod.create(
-        arrayType.getName() + (retainedResult ? " newArray" : " array")
+        arrayType.getName() + ((retainedResult || Options.useARC()) ? " newArray" : " array")
         + "WithDimensions:(int)dimensionCount lengths:(int *)dimensionLengths"
         + (needsTypeParam ? " type:(IOSClass *)type" : ""));
     IOSMethodBinding binding = IOSMethodBinding.newMethod(
